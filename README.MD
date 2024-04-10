@@ -2,7 +2,7 @@
 
 |   语言    |     框架      |   WebSocket   |
 |:-------:|:-----------:|:-------------:|
-| Go 1.22 | GoFrame 2.5 | gorilla 1.5.1 |
+| Go 1.22 | GoFrame 2.7 | gorilla 1.5.1 |
 
 #### 在线demo
 > https://fan.jx.cn:82/ct.html

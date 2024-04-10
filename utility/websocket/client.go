@@ -190,3 +190,13 @@ func (c *Client) GetRoomId() string {
 func (c *Client) GetCId() string {
 	return c.cId
 }
+
+// GetIp 获得IP
+func (c *Client) GetIp() string {
+	return c.ip
+}
+
+// GetUA 获得UA
+func (c *Client) GetUA() string {
+	return c.userAgent
+}
