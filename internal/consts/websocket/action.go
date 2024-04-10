@@ -9,6 +9,7 @@ const (
 )
 
 const (
+	RoomCount  = "room_count"
 	GetContent = "get_content"
 	SetContent = "set_content"
 	Content    = "content"

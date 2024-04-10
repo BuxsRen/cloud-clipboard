@@ -49,7 +49,7 @@ func HandleClient(r *ghttp.Request) {
 		r.Exit()
 	}
 
-	roomId := r.Get("roomId")
+	roomId := r.Get("room_id")
 	if roomId.IsEmpty() {
 		_ = ws.Close()
 		return
@@ -124,8 +124,8 @@ func (ws *WebSocket) GetClient(roomId, cId string) (*Client, error) {
 
 // SendMessageToAll 给所有客户端发送消息
 func (ws *WebSocket) SendMessageToAll(ctx context.Context, msg *Message, filter string) {
-	ws.list.Iterator(func(roomId interface{}, v interface{}) bool {
-		ws.sendToRoom(ctx, roomId.(string), msg, filter)
+	ws.list.Iterator(func(roomId interface{}, room interface{}) bool {
+		ws.sendToRoom(ctx, room.(*gmap.Map), msg, filter)
 		return true
 	})
 }
@@ -137,7 +137,7 @@ func (ws *WebSocket) SendMessageToRoom(ctx context.Context, roomId string, msg *
 		return errors.New("没有这个房间")
 	}
 
-	ws.sendToRoom(ctx, roomId, msg, filter)
+	ws.sendToRoom(ctx, room.(*gmap.Map), msg, filter)
 	return nil
 }
 

@@ -193,16 +193,13 @@ func (ws *WebSocket) removeClientInRoom(client *Client) {
 }
 
 // sendToAll 给指定房间广播消息
-func (ws *WebSocket) sendToRoom(ctx context.Context, roomId string, msg *Message, filter string) {
-	val := ws.room.Get(roomId)
-
-	if val == nil {
-		return
-	}
-
-	room := val.(*gmap.Map)
+func (ws *WebSocket) sendToRoom(ctx context.Context, room *gmap.Map, msg *Message, filter string) {
 	room.Iterator(func(cid interface{}, client interface{}) bool {
-		if filter != "" && filter != client.(*Client).cId {
+		if filter != "" {
+			if filter != client.(*Client).cId {
+				client.(*Client).Send(ctx, msg)
+			}
+		} else {
 			client.(*Client).Send(ctx, msg)
 		}
 		return true
