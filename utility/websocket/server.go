@@ -62,9 +62,6 @@ func (group *RouteGroup) Route(action string, controller Controller) {
 
 // connect 客户端连接
 func (ws *WebSocket) connect(ctx context.Context, client *Client) {
-	client.mutex.Lock()
-	defer client.mutex.Unlock()
-
 	// 开启读/写协程
 	go client.read()
 	go client.write()
@@ -81,9 +78,6 @@ func (ws *WebSocket) connect(ctx context.Context, client *Client) {
 
 // disconnect 客户端断开连接
 func (ws *WebSocket) disconnect(ctx context.Context, client *Client) {
-	client.mutex.Lock()
-	defer client.mutex.Unlock()
-
 	ws.removeClientInList(client)
 	ws.removeClientInRoom(client)
 

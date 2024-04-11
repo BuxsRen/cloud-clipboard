@@ -49,8 +49,6 @@ func (c *Client) write() {
 
 	for {
 		select {
-		case <-c.ctx.Done():
-			return
 		case msg, ok := <-c.msg: // 普通消息
 			// 通道被关闭，退出
 			if !ok {
@@ -59,7 +57,7 @@ func (c *Client) write() {
 			e := c.socket.WriteMessage(ghttp.WsMsgText, msg)
 			// 消息写入失败，退出
 			if e != nil {
-				return
+				continue
 			}
 		case msg, ok := <-c.msgPing: // PING 消息
 			if !ok {
@@ -67,7 +65,7 @@ func (c *Client) write() {
 			}
 			e := c.socket.WriteMessage(ghttp.WsMsgPing, msg)
 			if e != nil {
-				return
+				continue
 			}
 		}
 	}

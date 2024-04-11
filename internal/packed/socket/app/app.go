@@ -23,11 +23,12 @@ func (a *App) GetContent(ctx context.Context, client *websocket.Client, msg *web
 // SetContent 保存内容
 func (a *App) SetContent(ctx context.Context, client *websocket.Client, msg *websocket.Message) {
 	var req content.Content
-	err := gconv.Scan(msg.Data, &req)
+	_ = gconv.Scan(msg.Data, &req)
+
+	err := service.Cache().SetCache(ctx, client.GetRoomId(), req.Content)
 	if err != nil {
 		return
 	}
-	_ = service.Cache().SetCache(ctx, client.GetRoomId(), req.Content)
 
 	// 内容广播到房间内
 	_ = websocket.GetSocketServer().SendMessageToRoom(ctx, client.GetRoomId(), &websocket.Message{Action: wsc.Content, Data: req.Content}, client.GetCId())
