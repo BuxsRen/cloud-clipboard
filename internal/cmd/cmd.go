@@ -38,6 +38,11 @@ var (
 					}
 				})
 
+				host := parser.GetOpt("host").String()
+				if host != "" {
+					content.Host = host
+				}
+
 				room := parser.GetOpt("room").String()
 				if room != "" {
 					content.RoomId = room
@@ -46,9 +51,15 @@ var (
 			default:
 				websocket.Init(new(socket.Server))
 
+				var port = 5123
+				val := parser.GetOpt("port").Int()
+				if val > 0 {
+					port = val
+				}
+
 				s1 := g.Server("ws")
 				s1.BindHandler("/cloud", websocket.HandleClient)
-				s1.SetPort(5123)
+				s1.SetPort(port)
 				s1.Run()
 			}
 			return nil
