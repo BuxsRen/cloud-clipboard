@@ -2,6 +2,7 @@ package websocket
 
 import (
 	"CloudContent/internal/consts/websocket"
+	ws "CloudContent/internal/model/websocket"
 	"context"
 	"encoding/json"
 	"github.com/gogf/gf/v2/net/ghttp"
@@ -23,7 +24,7 @@ func (c *Client) ping() {
 			if !c.status {
 				return
 			}
-			b, _ := json.Marshal(&Message{Action: websocket.Ping})
+			b, _ := json.Marshal(&ws.Message{Action: websocket.Ping})
 			c.msgPing <- b
 		}
 	}
@@ -91,7 +92,7 @@ func (c *Client) read() {
 				}
 			}(ctx, c)
 
-			msg := &Message{}
+			msg := &ws.Message{}
 			err = json.Unmarshal(b, msg)
 			// 无用消息不处理
 			if err != nil {
@@ -145,7 +146,7 @@ func (c *Client) read() {
 }
 
 // Send 给当前客户端发送消息
-func (c *Client) Send(ctx context.Context, msg *Message) {
+func (c *Client) Send(ctx context.Context, msg *ws.Message) {
 	msg.Time = gtime.Now().Unix()
 	if msg.Msg == "" {
 		msg.Msg = "success"
@@ -153,7 +154,7 @@ func (c *Client) Send(ctx context.Context, msg *Message) {
 
 	b, err := json.Marshal(msg)
 	if err != nil {
-		c.Send(ctx, &Message{Action: websocket.Error, Msg: err.Error(), Code: websocket.CodeError})
+		c.Send(ctx, &ws.Message{Action: websocket.Error, Msg: err.Error(), Code: websocket.CodeError})
 		return
 	}
 

@@ -1,6 +1,7 @@
 package websocket
 
 import (
+	ws "CloudContent/internal/model/websocket"
 	"CloudContent/utility/utils"
 	"context"
 	"fmt"
@@ -187,7 +188,7 @@ func (ws *WebSocket) removeClientInRoom(client *Client) {
 }
 
 // sendToAll 给指定房间广播消息
-func (ws *WebSocket) sendToRoom(ctx context.Context, room *gmap.Map, msg *Message, filter string) {
+func (ws *WebSocket) sendToRoom(ctx context.Context, room *gmap.Map, msg *ws.Message, filter string) {
 	room.Iterator(func(cid interface{}, client interface{}) bool {
 		if filter != "" {
 			if filter != client.(*Client).cId {

@@ -2,6 +2,7 @@ package websocket
 
 import (
 	"CloudContent/internal/consts/websocket"
+	wsm "CloudContent/internal/model/websocket"
 	"context"
 	"errors"
 	"github.com/gogf/gf/v2/container/gmap"
@@ -85,7 +86,7 @@ func GetSocketServer() *WebSocket {
 // ForcedClient 下线客户端
 func (ws *WebSocket) ForcedClient(ctx context.Context, list *gmap.Map, filter *Client) {
 	// 将这个用户下登录的所有app踢下线
-	filter.Send(ctx, &Message{Action: websocket.Close, Msg: "您的账号在另一台设备登录了，您被迫下线", Code: websocket.CodeClose})
+	filter.Send(ctx, &wsm.Message{Action: websocket.Close, Msg: "您的账号在另一台设备登录了，您被迫下线", Code: websocket.CodeClose})
 	go func(c *Client) {
 		time.Sleep(time.Second)
 		c.Close()
@@ -123,7 +124,7 @@ func (ws *WebSocket) GetClient(roomId, cId string) (*Client, error) {
 }
 
 // SendMessageToAll 给所有客户端发送消息
-func (ws *WebSocket) SendMessageToAll(ctx context.Context, msg *Message, filter string) {
+func (ws *WebSocket) SendMessageToAll(ctx context.Context, msg *wsm.Message, filter string) {
 	ws.list.Iterator(func(roomId interface{}, room interface{}) bool {
 		ws.sendToRoom(ctx, room.(*gmap.Map), msg, filter)
 		return true
@@ -131,7 +132,7 @@ func (ws *WebSocket) SendMessageToAll(ctx context.Context, msg *Message, filter 
 }
 
 // SendMessageToRoom 给指定房间内所有客户端发送消息
-func (ws *WebSocket) SendMessageToRoom(ctx context.Context, roomId string, msg *Message, filter string) error {
+func (ws *WebSocket) SendMessageToRoom(ctx context.Context, roomId string, msg *wsm.Message, filter string) error {
 	room := ws.room.Get(roomId)
 	if room == nil {
 		return errors.New("没有这个房间")
@@ -142,7 +143,7 @@ func (ws *WebSocket) SendMessageToRoom(ctx context.Context, roomId string, msg *
 }
 
 // SendMessageToClientInRoom 给指定房间内指定客户端发送消息
-func (ws *WebSocket) SendMessageToClientInRoom(ctx context.Context, roomId, cId string, msg *Message) error {
+func (ws *WebSocket) SendMessageToClientInRoom(ctx context.Context, roomId, cId string, msg *wsm.Message) error {
 	room := ws.room.Get(roomId)
 	if room == nil {
 		return errors.New("没有这个房间")

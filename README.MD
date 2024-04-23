@@ -14,6 +14,15 @@
 #### WebSocket 业务层
 - internal/packed/socket
 
+### 运行客户端
+> 获取剪贴板内容，将云内容置于剪贴板
+
+```shell
+go run main.go -mode=client -room=123456
+```
+- mode 运行模式
+- room 房间ID
+
 #### 路由与中间件
 ```go
 package server

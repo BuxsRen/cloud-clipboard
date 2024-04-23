@@ -1,6 +1,7 @@
 package websocket
 
 import (
+	ws "CloudContent/internal/model/websocket"
 	"context"
 	"github.com/gogf/gf/v2/container/gmap"
 	"github.com/gogf/gf/v2/net/ghttp"
@@ -48,8 +49,8 @@ type Group struct {
 }
 
 type (
-	Middleware func(ctx context.Context, client *Client, msg *Message) (context.Context, bool) // 中间件
-	Controller func(ctx context.Context, client *Client, msg *Message)                         // 控制器
+	Middleware func(ctx context.Context, client *Client, msg *ws.Message) (context.Context, bool) // 中间件
+	Controller func(ctx context.Context, client *Client, msg *ws.Message)                         // 控制器
 )
 
 // Client 客户端
@@ -69,13 +70,4 @@ type Client struct {
 	tk        *time.Ticker       // 定时ping
 	once      sync.Once          // 安全锁
 	mutex     sync.Mutex         // 用户锁
-}
-
-// Message 消息
-type Message struct {
-	Code   int         `json:"code"`   // 状态码
-	Msg    string      `json:"msg"`    // 信息
-	Action string      `json:"action"` // 动作
-	Time   int64       `json:"time"`   // 消息时间
-	Data   interface{} `json:"data"`   // 消息体
 }
