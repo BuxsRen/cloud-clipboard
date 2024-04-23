@@ -31,3 +31,11 @@ CloudContent.exe -mode=client -room=123456
 #### WebSocket 业务层
 - internal/packed/client ``客户端``
 - internal/packed/websocket ``服务端``
+
+### 已实现的功能
+- 路由与路由组
+- 路由与中间件
+- Action绑定到控制器
+- 群聊与私聊，上下线通知
+- 单点登录被迫下线
+- 异常捕获、ping、重连等
