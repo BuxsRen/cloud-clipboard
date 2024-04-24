@@ -19,7 +19,7 @@
 
 ```shell
 # 在命令行窗口运行如下命令，会运行在后台，启动后是无窗口模式
-CloudContent.exe -mode=client -room=123456
+CloudContent_windows_amd64.exe -mode=client -room=123456
 ```
 - mode `运行模式` => `client`
 - room `房间ID` => `123456`
@@ -33,7 +33,7 @@ CloudContent.exe -mode=client -room=123456
 
 ```shell
 # 端口默认:5123, mode不传默认为服务端
-./CloudContent -port=5123 -mode=server
+./CloudContent_linux_amd64 -port=5123 -mode=server
 ```
 
 - port `端口` => `5123`
@@ -49,9 +49,33 @@ CloudContent.exe -mode=client -room=123456
 - internal/packed/websocket ``服务端``
 
 ### 已实现的功能
-- 路由与路由组
-- 路由与中间件
+- 仿http路由与路由组写法
+- 路由支持链式调用与路由组层级嵌套
+- 路由/组与中间件实现
+- 通过中间件可实现消息限流(选)
 - Action绑定到控制器
 - 群聊与私聊，上下线通知
-- 单点登录被迫下线
-- 异常捕获、ping、重连等
+- 支持单点登录被迫下线(选)
+- 异常处理，隐式ping，客户端自动重连等
+
+### 消息格式
+
+#### 请求体格式
+```json
+{
+    "action": "login",
+    "data":{
+      "token": "xxxxx",
+    }
+}
+```
+
+#### 响应体格式
+```json
+{
+    "code": 0,
+    "action": "login",
+    "msg": "success",  
+    "data":{}
+}
+```
