@@ -1,7 +1,7 @@
 package client
 
 import (
-	ws "CloudContent/internal/model/websocket"
+	ws "cloud-clipboard/internal/model/websocket"
 	"context"
 	"encoding/json"
 	"github.com/gogf/gf/v2/os/gctx"

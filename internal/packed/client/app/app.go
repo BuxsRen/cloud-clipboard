@@ -1,12 +1,11 @@
 package app
 
 import (
-	ws "CloudContent/internal/model/websocket"
-	"CloudContent/internal/service"
-	"CloudContent/utility/client"
+	ws "cloud-clipboard/internal/model/websocket"
+	"cloud-clipboard/internal/service"
+	"cloud-clipboard/utility/client"
+	"cloud-clipboard/utility/clipboard"
 	"context"
-	"fmt"
-	"github.com/atotto/clipboard"
 	"github.com/gogf/gf/v2/util/gconv"
 )
 
@@ -17,13 +16,10 @@ func (a *App) Content(ctx context.Context, msg *ws.Message) {
 	mutex := client.GetSocketClient().GetMutex()
 	mutex.Lock()
 	defer mutex.Unlock()
+
 	text := gconv.String(msg.Data)
 
 	_ = service.Cache().SetCache(ctx, "text", text)
 
-	err := clipboard.WriteAll(text)
-	if err != nil {
-		fmt.Println("Failed to write to clipboard:", err)
-		return
-	}
+	clipboard.WriteClipboardText(text)
 }

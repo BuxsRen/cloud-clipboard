@@ -1,8 +1,8 @@
 package websocket
 
 import (
-	ws "CloudContent/internal/model/websocket"
-	"CloudContent/utility/utils"
+	ws "cloud-clipboard/internal/model/websocket"
+	"cloud-clipboard/utility/utils"
 	"context"
 	"fmt"
 	"github.com/gogf/gf/v2/container/gmap"
@@ -12,11 +12,11 @@ import (
 )
 
 // Routes 添加通用路由
-func Routes(action string, controller Controller) Route {
+func Routes(action string, controller Controller) *Route {
 	if _, ok := socket.route[action]; ok {
 		panic("socket route duplicate registration: " + action)
 	}
-	socket.route[action] = Route{
+	socket.route[action] = &Route{
 		action:     action,
 		middleware: []Middleware{},
 		fun:        controller,
@@ -87,7 +87,7 @@ func (ws *WebSocket) disconnect(ctx context.Context, client *Client) {
 }
 
 // handleRouteGroup 处理路由组与路由组链
-func (ws *WebSocket) handleRouteGroup(route *map[string]Route, group *RouteGroup) {
+func (ws *WebSocket) handleRouteGroup(route *map[string]*Route, group *RouteGroup) {
 	socket.handleGroup(route, group.group, []Middleware{})
 
 	if group.next != nil {
@@ -99,7 +99,7 @@ func (ws *WebSocket) handleRouteGroup(route *map[string]Route, group *RouteGroup
 }
 
 // handleGroup 处理路由组
-func (ws *WebSocket) handleGroup(route *map[string]Route, group *Group, middleware []Middleware) {
+func (ws *WebSocket) handleGroup(route *map[string]*Route, group *Group, middleware []Middleware) {
 	if group.Middleware != nil { // 合并上层中间件与本层中间件
 		middleware = append(middleware, group.Middleware...)
 	}
@@ -109,7 +109,7 @@ func (ws *WebSocket) handleGroup(route *map[string]Route, group *Group, middlewa
 			panic("socket route group duplicate registration: " + v2.action)
 		}
 		v2.middleware = append(middleware, v2.middleware...) // 合并中间件到路由
-		(*route)[v2.action] = *v2
+		(*route)[v2.action] = v2
 	}
 
 	if group.Group != nil {
@@ -211,7 +211,7 @@ func (ws *WebSocket) PrintRoute() {
 	}
 }
 
-func (ws *WebSocket) printRoute(r map[string]Route) {
+func (ws *WebSocket) printRoute(r map[string]*Route) {
 	fmt.Printf("| %-40v | %-50v | %-40v\n", "Action", "Controller", "Middleware")
 	fmt.Println("|-----------------------------------------------------------------------------------------------------------------------------------------|")
 	for action, route := range r {

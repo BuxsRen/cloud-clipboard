@@ -1,20 +1,15 @@
 package cmd
 
 import (
-	wsc "CloudContent/internal/consts/websocket"
-	"CloudContent/internal/model/content"
-	ws "CloudContent/internal/model/websocket"
-	wsClient "CloudContent/internal/packed/client"
-	"CloudContent/internal/packed/socket"
-	"CloudContent/internal/service"
-	"CloudContent/utility/client"
-	"CloudContent/utility/websocket"
+	"cloud-clipboard/internal/model/app"
+	wsClient "cloud-clipboard/internal/packed/client"
+	"cloud-clipboard/internal/packed/socket"
+	"cloud-clipboard/utility/client"
+	"cloud-clipboard/utility/clipboard"
+	"cloud-clipboard/utility/websocket"
 	"context"
-	"github.com/atotto/clipboard"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gcmd"
-	"github.com/gogf/gf/v2/os/gtimer"
-	"time"
 )
 
 var (
@@ -25,27 +20,16 @@ var (
 		Func: func(ctx context.Context, parser *gcmd.Parser) (err error) {
 			switch parser.GetOpt("mode").String() {
 			case "client":
-				gtimer.SetInterval(ctx, time.Second, func(ctx context.Context) {
-					mutex := client.GetSocketClient().GetMutex()
-					mutex.Lock()
-					defer mutex.Unlock()
-
-					text, err := clipboard.ReadAll()
-					val, _ := service.Cache().GetCache(ctx, "text")
-					if err == nil && text != "" && val.String() != text {
-						_ = service.Cache().SetCache(ctx, "text", text)
-						client.GetSocketClient().Send(ctx, &ws.Message{Action: wsc.SetContent, Data: g.Map{"content": text}})
-					}
-				})
+				clipboard.GetClipboardToRoom()
 
 				host := parser.GetOpt("host").String()
 				if host != "" {
-					content.Host = host
+					app.Host = host
 				}
 
 				room := parser.GetOpt("room").String()
 				if room != "" {
-					content.RoomId = room
+					app.RoomId = room
 				}
 				client.Run(new(wsClient.Socket))
 			default:

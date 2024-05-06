@@ -1,8 +1,8 @@
 package websocket
 
 import (
-	"CloudContent/internal/consts/websocket"
-	ws "CloudContent/internal/model/websocket"
+	"cloud-clipboard/internal/consts/websocket"
+	ws "cloud-clipboard/internal/model/websocket"
 	"context"
 	"encoding/json"
 	"github.com/gogf/gf/v2/net/ghttp"

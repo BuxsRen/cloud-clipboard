@@ -1,7 +1,7 @@
 package websocket
 
 import (
-	ws "CloudContent/internal/model/websocket"
+	ws "cloud-clipboard/internal/model/websocket"
 	"context"
 	"github.com/gogf/gf/v2/container/gmap"
 	"github.com/gogf/gf/v2/net/ghttp"
@@ -12,12 +12,12 @@ import (
 var socket *WebSocket
 
 type WebSocket struct {
-	iSocket    ISocket                     // 业务接口
-	list       *gmap.Map                   // map[string]*Client 在线客户端 {cid: *Client}
-	room       *gmap.Map                   // map[string]map[string]*Client 房间 {roomId: {Cid: *Client}}
-	routeGroup map[string]*RouteGroup      // 路由组
-	route      map[string]Route            // 事件路由  {"action":controller}
-	group      map[string]map[string]Route // 事件路由组 {"identity": {"action":controller}}
+	iSocket    ISocket                      // 业务接口
+	list       *gmap.Map                    // map[string]*Client 在线客户端 {cid: *Client}
+	room       *gmap.Map                    // map[string]map[string]*Client 房间 {roomId: {Cid: *Client}}
+	routeGroup map[string]*RouteGroup       // 路由组
+	route      map[string]*Route            // 事件路由  {"action":controller}
+	group      map[string]map[string]*Route // 事件路由组 {"identity": {"action":controller}}
 }
 
 // ISocket 必须实现下面方法

@@ -1,8 +1,8 @@
 package websocket
 
 import (
-	"CloudContent/internal/consts/websocket"
-	wsm "CloudContent/internal/model/websocket"
+	"cloud-clipboard/internal/consts/websocket"
+	wsm "cloud-clipboard/internal/model/websocket"
 	"context"
 	"errors"
 	"github.com/gogf/gf/v2/container/gmap"
@@ -24,15 +24,15 @@ func Init(si ISocket) {
 		list:       gmap.New(true),
 		room:       gmap.New(true),
 		routeGroup: make(map[string]*RouteGroup),
-		route:      make(map[string]Route),
-		group:      make(map[string]map[string]Route),
+		route:      make(map[string]*Route),
+		group:      make(map[string]map[string]*Route),
 	}
 
 	socket.iSocket.Route()
 
 	// 绑定路由组路由事件
 	for k, v := range socket.routeGroup {
-		route := make(map[string]Route)
+		route := make(map[string]*Route)
 
 		socket.handleRouteGroup(&route, v)
 

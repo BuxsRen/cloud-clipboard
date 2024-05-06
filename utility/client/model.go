@@ -1,7 +1,7 @@
 package client
 
 import (
-	ws "CloudContent/internal/model/websocket"
+	ws "cloud-clipboard/internal/model/websocket"
 	"context"
 	"github.com/gorilla/websocket"
 	"sync"

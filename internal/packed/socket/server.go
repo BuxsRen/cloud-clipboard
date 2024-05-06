@@ -1,9 +1,9 @@
 package socket
 
 import (
-	wsc "CloudContent/internal/consts/websocket"
-	ws "CloudContent/internal/model/websocket"
-	"CloudContent/utility/websocket"
+	wsc "cloud-clipboard/internal/consts/websocket"
+	ws "cloud-clipboard/internal/model/websocket"
+	"cloud-clipboard/utility/websocket"
 	"context"
 	"github.com/gogf/gf/v2/util/gconv"
 )

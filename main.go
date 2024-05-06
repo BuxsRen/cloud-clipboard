@@ -1,11 +1,11 @@
 package main
 
 import (
-	_ "CloudContent/internal/logic"
-	_ "CloudContent/internal/packed"
+	_ "cloud-clipboard/internal/logic"
+	_ "cloud-clipboard/internal/packed"
 	"github.com/gogf/gf/v2/os/gctx"
 
-	"CloudContent/internal/cmd"
+	"cloud-clipboard/internal/cmd"
 )
 
 func main() {

@@ -1,4 +1,4 @@
-package content
+package app
 
 var Host = "wss://fan.jx.cn:82"
 var RoomId = "123456"

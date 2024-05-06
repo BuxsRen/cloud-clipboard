@@ -1,9 +1,9 @@
 package client
 
 import (
-	wsc "CloudContent/internal/consts/websocket"
-	"CloudContent/internal/model/content"
-	ws "CloudContent/internal/model/websocket"
+	wsc "cloud-clipboard/internal/consts/websocket"
+	"cloud-clipboard/internal/model/app"
+	ws "cloud-clipboard/internal/model/websocket"
 	"context"
 	"encoding/json"
 	"github.com/gogf/gf/v2/net/gclient"
@@ -17,7 +17,7 @@ func (c *Client) connect() {
 	client := gclient.NewWebSocket()
 	client.HandshakeTimeout = 10 * time.Second // 设置超时时间
 
-	conn, _, err := client.Dial(content.Host+"/ws/cloud?room_id="+content.RoomId, nil)
+	conn, _, err := client.Dial(app.Host+"/ws/cloud?room_id="+app.RoomId, nil)
 	if err != nil {
 		log.Println(err)
 		c.safeClose()

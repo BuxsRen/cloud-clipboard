@@ -1,11 +1,11 @@
 package app
 
 import (
-	wsc "CloudContent/internal/consts/websocket"
-	"CloudContent/internal/model/content"
-	ws "CloudContent/internal/model/websocket"
-	"CloudContent/internal/service"
-	"CloudContent/utility/websocket"
+	wsc "cloud-clipboard/internal/consts/websocket"
+	"cloud-clipboard/internal/model/app"
+	ws "cloud-clipboard/internal/model/websocket"
+	"cloud-clipboard/internal/service"
+	"cloud-clipboard/utility/websocket"
 	"context"
 	"github.com/gogf/gf/v2/util/gconv"
 )
@@ -23,7 +23,7 @@ func (a *App) GetContent(ctx context.Context, client *websocket.Client, msg *ws.
 
 // SetContent 保存内容
 func (a *App) SetContent(ctx context.Context, client *websocket.Client, msg *ws.Message) {
-	var req content.Content
+	var req app.Content
 	_ = gconv.Scan(msg.Data, &req)
 
 	err := service.Cache().SetCache(ctx, client.GetRoomId(), req.Content)

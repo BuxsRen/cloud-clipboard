@@ -1,4 +1,4 @@
-# 云剪贴板 WebSocket案例
+# 云剪贴板
 
 |   语言    |     框架      |   WebSocket   |
 |:-------:|:-----------:|:-------------:|
@@ -7,11 +7,20 @@
 ### DEMO 云剪贴板
 ```这是基于Websocket实现的一个云剪贴板的案例，跨设备剪贴板同步```
 - 获取剪贴板内容
-- 将云内容置于剪贴板
-- 跨设备剪贴板同步
+- 将剪贴板置于云端房间广播
+- 跨设备剪贴板同步(同一房间内所有客户端都可以收到剪贴板内容)
 
 #### 在线用例 ```网页版```
 > https://fan.jx.cn:82/ct.html
+
+### 运行和编译
+```shell
+# 运行
+go run main.go
+
+# 编译 需要配置 hack/config.yaml
+gf build
+```
 
 ### 用例 ```桌面版```
 
@@ -19,7 +28,7 @@
 
 ```shell
 # 在命令行窗口运行如下命令，会运行在后台，启动后是无窗口模式
-CloudContent_windows_amd64.exe -mode=client -room=123456
+cloud-clipboard_windows_amd64.exe -mode=client -room=123456
 ```
 - mode `运行模式` => `client`
 - room `房间ID` => `123456`
@@ -33,7 +42,7 @@ CloudContent_windows_amd64.exe -mode=client -room=123456
 
 ```shell
 # 端口默认:5123, mode不传默认为服务端
-./CloudContent_linux_amd64 -port=5123 -mode=server
+./cloud-clipboard_linux_amd64 -port=5123 -mode=server
 ```
 
 - port `端口` => `5123`
@@ -78,4 +87,19 @@ CloudContent_windows_amd64.exe -mode=client -room=123456
     "msg": "success",  
     "data":{}
 }
+```
+
+### 打印路由
+- 使用下面方法可打印服务端的 websocket 的路由
+```go
+_ = websocket.GetSocketServer().PrintRoute()
+```
+- 打印结果
+```text
+|----------------------------------------------------------------- route -----------------------------------------------------------------------------|
+| Action                                   | Controller                                                   | Middleware                                |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| get_content                              | cloud-clipboard/internal/packed/socket/app.(*App).GetContent |                                           |
+| set_content                              | cloud-clipboard/internal/packed/socket/app.(*App).SetContent | cloud-clipboard/internal/middleware.Limit |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------|
 ```

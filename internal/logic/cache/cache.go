@@ -1,7 +1,7 @@
 package cache
 
 import (
-	"CloudContent/internal/service"
+	"cloud-clipboard/internal/service"
 	"context"
 	//_ "github.com/gogf/gf/contrib/nosql/redis/v2"
 	"github.com/gogf/gf/v2/container/gvar"

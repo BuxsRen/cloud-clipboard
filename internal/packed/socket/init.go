@@ -1,6 +1,6 @@
 package socket
 
-import "CloudContent/utility/websocket"
+import "cloud-clipboard/utility/websocket"
 
 type Server struct{}
 
