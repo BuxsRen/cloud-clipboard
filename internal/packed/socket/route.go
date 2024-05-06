@@ -12,14 +12,14 @@ func (s *Server) Route() {
 
 	// 使用普通路由方式
 	websocket.Routes(wsc.GetContent, cApp.GetContent)
-	websocket.Routes(wsc.SetContent, cApp.SetContent).Middleware(middleware.Limit) // 该控制器只对该 Action 生效
+	websocket.Routes(wsc.SetContent, cApp.SetContent).Middleware(middleware.Limit) // 使用 消息限流中间件 该 中间件 只对该 Action 生效
 
 	// 使用路由组方式
 	//websocket.Groups(wsc.Identity, func(group *websocket.RouteGroup) {
 	//	group.Route(wsc.GetContent, cApp.GetContent)
 	//
 	//	group.Group(func(group *websocket.RouteGroup) {
-	//		group.Middleware(middleware.Limit) // 使用消息限流中间件 该组中的所有 Action 以及下级所有的 Action 都受这个中间件控制
+	//		group.Middleware(middleware.Limit) // 使用 消息限流中间件 该组中的所有 Action 以及下级所有的 Action 都受这个中间件控制
 	//
 	//		group.Route(wsc.SetContent, cApp.SetContent)
 	//
