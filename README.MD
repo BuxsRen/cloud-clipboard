@@ -38,6 +38,8 @@ cloud-clipboard_windows_amd64.exe -mode=client -room=123456
 
 > 两台电脑都运行桌面版，也可以实现剪贴板跨设备同步
 
+![示例动图](./resource/public/resource/image/cloud_clipboard.gif)
+
 ### 部署服务端
 
 ```shell
